@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AbstractTransactionService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">br.com.userede.erede.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AbstractTransactionService (br.com.userede.erede.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractTransactionService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89,2%
+  </span>
+  <span class="absValue">
+    (33/ 37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package br.com.userede.erede.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import br.com.userede.erede.Store;
+<i>4</i>&nbsp;import br.com.userede.erede.Transaction;
+<i>5</i>&nbsp;import br.com.userede.erede.TransactionResponse;
+<i>6</i>&nbsp;import br.com.userede.erede.eRede;
+<i>7</i>&nbsp;import br.com.userede.erede.service.error.RedeError;
+<i>8</i>&nbsp;import br.com.userede.erede.service.error.RedeException;
+<i>9</i>&nbsp;import com.google.gson.Gson;
+<i>10</i>&nbsp;import java.io.BufferedReader;
+<i>11</i>&nbsp;import java.io.IOException;
+<i>12</i>&nbsp;import java.io.InputStream;
+<i>13</i>&nbsp;import java.io.InputStreamReader;
+<i>14</i>&nbsp;import java.net.URISyntaxException;
+<i>15</i>&nbsp;import java.nio.charset.StandardCharsets;
+<i>16</i>&nbsp;import java.util.Base64;
+<i>17</i>&nbsp;import java.util.logging.Level;
+<i>18</i>&nbsp;import java.util.logging.Logger;
+<i>19</i>&nbsp;import java.util.zip.GZIPInputStream;
+<i>20</i>&nbsp;import org.apache.http.Header;
+<i>21</i>&nbsp;import org.apache.http.HttpEntity;
+<i>22</i>&nbsp;import org.apache.http.HttpHeaders;
+<i>23</i>&nbsp;import org.apache.http.HttpResponse;
+<i>24</i>&nbsp;import org.apache.http.client.methods.HttpUriRequest;
+<i>25</i>&nbsp;import org.apache.http.client.utils.URIBuilder;
+<i>26</i>&nbsp;import org.apache.http.impl.client.HttpClientBuilder;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;abstract class AbstractTransactionService {
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;  final Store store;
+<i>31</i>&nbsp;  final Transaction transaction;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;  private final Logger logger;
+<i>34</i>&nbsp;
+<b class="fc"><i>35</i>&nbsp;  AbstractTransactionService(Store store, Transaction transaction, Logger logger) {</b>
+<b class="fc"><i>36</i>&nbsp;    this.store = store;</b>
+<b class="fc"><i>37</i>&nbsp;    this.transaction = transaction;</b>
+<b class="fc"><i>38</i>&nbsp;    this.logger = logger;</b>
+<b class="fc"><i>39</i>&nbsp;  }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;  abstract public TransactionResponse execute();
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;  URIBuilder getUri() throws URISyntaxException {
+<b class="fc"><i>44</i>&nbsp;    return new URIBuilder(store.getEnvironment().getEndpoint(&quot;transactions&quot;));</b>
+<i>45</i>&nbsp;  }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;  TransactionResponse sendRequest(HttpUriRequest request) {
+<b class="fc"><i>48</i>&nbsp;    String credentials = Base64.getEncoder()</b>
+<b class="fc"><i>49</i>&nbsp;        .encodeToString(String.format(&quot;%s:%s&quot;, store.getFiliation(), store.getToken()).getBytes(</b>
+<i>50</i>&nbsp;            StandardCharsets.US_ASCII));
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;    request</b>
+<b class="fc"><i>53</i>&nbsp;        .addHeader(HttpHeaders.USER_AGENT, String.format(eRede.USER_AGENT, store.getFiliation()));</b>
+<b class="fc"><i>54</i>&nbsp;    request.addHeader(HttpHeaders.ACCEPT, &quot;application/json&quot;);</b>
+<b class="fc"><i>55</i>&nbsp;    request.addHeader(HttpHeaders.CONTENT_TYPE, &quot;application/json&quot;);</b>
+<b class="fc"><i>56</i>&nbsp;    request.addHeader(HttpHeaders.AUTHORIZATION, &quot;Basic &quot; + credentials);</b>
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;    logger.log(Level.FINE, request.getRequestLine().toString());</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    try {
+<b class="fc"><i>61</i>&nbsp;      HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);</b>
+<b class="fc"><i>62</i>&nbsp;      int status = httpResponse.getStatusLine().getStatusCode();</b>
+<i>63</i>&nbsp;
+<b class="fc"><i>64</i>&nbsp;      String response = parseResponse(httpResponse);</b>
+<b class="fc"><i>65</i>&nbsp;      TransactionResponse transactionResponse = new Gson()</b>
+<b class="fc"><i>66</i>&nbsp;          .fromJson(response, TransactionResponse.class);</b>
+<i>67</i>&nbsp;
+<b class="fc"><i>68</i>&nbsp;      if (status &lt; 200 || status &gt;= 400) {</b>
+<b class="fc"><i>69</i>&nbsp;        RedeError redeError = new RedeError(transactionResponse.getReturnCode(),</b>
+<b class="fc"><i>70</i>&nbsp;            transactionResponse.getReturnMessage());</b>
+<i>71</i>&nbsp;
+<b class="fc"><i>72</i>&nbsp;        throw new RedeException(httpResponse.getStatusLine().toString(), redeError,</b>
+<i>73</i>&nbsp;            transactionResponse);
+<i>74</i>&nbsp;      }
+<i>75</i>&nbsp;
+<b class="fc"><i>76</i>&nbsp;      return transactionResponse;</b>
+<b class="nc"><i>77</i>&nbsp;    } catch (IOException e) {</b>
+<b class="nc"><i>78</i>&nbsp;      e.printStackTrace();</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<b class="nc"><i>81</i>&nbsp;    return null;</b>
+<i>82</i>&nbsp;  }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;  private String parseResponse(HttpResponse response) throws IOException {
+<b class="fc"><i>85</i>&nbsp;    HttpEntity responseEntity = response.getEntity();</b>
+<b class="fc"><i>86</i>&nbsp;    InputStream responseEntityContent = responseEntity.getContent();</b>
+<i>87</i>&nbsp;
+<b class="fc"><i>88</i>&nbsp;    Header contentEncoding = response.getFirstHeader(&quot;Content-Encoding&quot;);</b>
+<i>89</i>&nbsp;
+<b class="fc"><i>90</i>&nbsp;    if (contentEncoding != null &amp;&amp; contentEncoding.getValue().equalsIgnoreCase(&quot;gzip&quot;)) {</b>
+<b class="nc"><i>91</i>&nbsp;      responseEntityContent = new GZIPInputStream(responseEntityContent);</b>
+<i>92</i>&nbsp;    }
+<i>93</i>&nbsp;
+<b class="fc"><i>94</i>&nbsp;    BufferedReader responseReader = new BufferedReader(</b>
+<i>95</i>&nbsp;        new InputStreamReader(responseEntityContent));
+<b class="fc"><i>96</i>&nbsp;    StringBuilder responseBuilder = new StringBuilder();</b>
+<i>97</i>&nbsp;    String line;
+<i>98</i>&nbsp;
+<b class="fc"><i>99</i>&nbsp;    while ((line = responseReader.readLine()) != null) {</b>
+<b class="fc"><i>100</i>&nbsp;      responseBuilder.append(line);</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<b class="fc"><i>103</i>&nbsp;    return responseBuilder.toString();</b>
+<i>104</i>&nbsp;  }
+<i>105</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-06-09 22:49</div>
+</div>
+</body>
+</html>

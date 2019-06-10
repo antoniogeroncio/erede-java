@@ -1,0 +1,152 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Transaction</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">br.com.userede.erede</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Transaction (br.com.userede.erede)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Transaction</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (4/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    48,4%
+  </span>
+  <span class="absValue">
+    (15/ 31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package br.com.userede.erede;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;public class Transaction extends AbstractTransaction&lt;Boolean&gt; {
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;  public static final String CREDIT = &quot;credit&quot;;
+<i>6</i>&nbsp;  public static final String DEBIT = &quot;debit&quot;;
+<i>7</i>&nbsp;
+<b class="fc"><i>8</i>&nbsp;  public static final Integer ORIGIN_EREDE = 1;</b>
+<b class="fc"><i>9</i>&nbsp;  public static final Integer ORIGIN_VISA_CHECKOUT = 4;</b>
+<b class="fc"><i>10</i>&nbsp;  public static final Integer ORIGIN_MASTERPASS = 6;</b>
+<i>11</i>&nbsp;
+<b class="fc"><i>12</i>&nbsp;  public Transaction(double amount, String reference) {</b>
+<b class="fc"><i>13</i>&nbsp;    setAmount(amount);</b>
+<b class="fc"><i>14</i>&nbsp;    setReference(reference);</b>
+<b class="fc"><i>15</i>&nbsp;  }</b>
+<i>16</i>&nbsp;
+<b class="nc"><i>17</i>&nbsp;  public Transaction(int amount, String reference) {</b>
+<b class="nc"><i>18</i>&nbsp;    setAmount(amount);</b>
+<b class="nc"><i>19</i>&nbsp;    setReference(reference);</b>
+<b class="nc"><i>20</i>&nbsp;  }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;  public Transaction capture() {
+<b class="nc"><i>23</i>&nbsp;    return capture(true);</b>
+<i>24</i>&nbsp;  }
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;  public Transaction capture(Boolean capture) {
+<b class="nc"><i>27</i>&nbsp;    if (!capture &amp;&amp; getKind().equals(Transaction.DEBIT)) {</b>
+<b class="nc"><i>28</i>&nbsp;      throw new IllegalArgumentException(&quot;Debit transactions will always be captured&quot;);</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;
+<b class="nc"><i>31</i>&nbsp;    setCapture(capture);</b>
+<i>32</i>&nbsp;
+<b class="nc"><i>33</i>&nbsp;    return this;</b>
+<i>34</i>&nbsp;  }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;  public Transaction debitCard(String cardNumber, String securityCode, String expirationMonth,
+<i>37</i>&nbsp;      String expirationYear, String cardHolderName) {
+<i>38</i>&nbsp;
+<b class="nc"><i>39</i>&nbsp;    setCard(cardNumber, securityCode, expirationMonth, expirationYear, cardHolderName,</b>
+<i>40</i>&nbsp;        Transaction.DEBIT);
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;    ThreeDSecure threeDSecure = new ThreeDSecure();</b>
+<b class="nc"><i>43</i>&nbsp;    threeDSecure.setEmbedded(true);</b>
+<b class="nc"><i>44</i>&nbsp;    threeDSecure.setOnFailure(ThreeDSecure.DECLINE_ON_FAILURE);</b>
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;    setCapture(true);</b>
+<b class="nc"><i>47</i>&nbsp;    setThreeDSecure(threeDSecure);</b>
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;    return this;</b>
+<i>50</i>&nbsp;  }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;  public Transaction creditCard(String cardNumber, String securityCode, String expirationMonth,
+<i>53</i>&nbsp;      String expirationYear, String cardHolderName) {
+<b class="fc"><i>54</i>&nbsp;    return setCard(cardNumber, securityCode, expirationMonth, expirationYear, cardHolderName,</b>
+<i>55</i>&nbsp;        Transaction.CREDIT);
+<i>56</i>&nbsp;  }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;  public Transaction setCard(String cardNumber, String securityCode, String expirationMonth,
+<i>59</i>&nbsp;      String expirationYear, String cardHolderName, String kind) {
+<b class="fc"><i>60</i>&nbsp;    setCardNumber(cardNumber);</b>
+<b class="fc"><i>61</i>&nbsp;    setSecurityCode(securityCode);</b>
+<b class="fc"><i>62</i>&nbsp;    setExpirationMonth(expirationMonth);</b>
+<b class="fc"><i>63</i>&nbsp;    setExpirationYear(expirationYear);</b>
+<b class="fc"><i>64</i>&nbsp;    setCardHolderName(cardHolderName);</b>
+<b class="fc"><i>65</i>&nbsp;    setKind(kind);</b>
+<i>66</i>&nbsp;
+<b class="fc"><i>67</i>&nbsp;    return this;</b>
+<i>68</i>&nbsp;  }
+<i>69</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-06-09 22:49</div>
+</div>
+</body>
+</html>

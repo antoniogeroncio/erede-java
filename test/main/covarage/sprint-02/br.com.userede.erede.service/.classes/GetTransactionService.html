@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GetTransactionService</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">br.com.userede.erede.service</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GetTransactionService (br.com.userede.erede.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GetTransactionService</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package br.com.userede.erede.service;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import br.com.userede.erede.Store;
+<i>4</i>&nbsp;import br.com.userede.erede.Transaction;
+<i>5</i>&nbsp;import br.com.userede.erede.TransactionResponse;
+<i>6</i>&nbsp;import java.net.URISyntaxException;
+<i>7</i>&nbsp;import java.util.logging.Logger;
+<i>8</i>&nbsp;import org.apache.http.client.methods.HttpGet;
+<i>9</i>&nbsp;import org.apache.http.client.utils.URIBuilder;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;public class GetTransactionService extends AbstractTransactionService {
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;  private String reference;
+<i>14</i>&nbsp;  private String tid;
+<b class="nc"><i>15</i>&nbsp;  private Boolean refund = false;</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;  public GetTransactionService(Store store,
+<i>18</i>&nbsp;      Transaction transaction, Logger logger) {
+<b class="nc"><i>19</i>&nbsp;    super(store, transaction, logger);</b>
+<i>20</i>&nbsp;  }
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;  public void setReference(String reference) {
+<b class="nc"><i>23</i>&nbsp;    this.reference = reference;</b>
+<i>24</i>&nbsp;  }
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;  public void setRefund(Boolean refund) {
+<b class="nc"><i>27</i>&nbsp;    this.refund = refund;</b>
+<i>28</i>&nbsp;  }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;  public void setTid(String tid) {
+<b class="nc"><i>31</i>&nbsp;    this.tid = tid;</b>
+<i>32</i>&nbsp;  }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;  @Override
+<i>35</i>&nbsp;  public URIBuilder getUri() throws URISyntaxException {
+<b class="nc"><i>36</i>&nbsp;    URIBuilder uriBuilder = super.getUri();</b>
+<i>37</i>&nbsp;
+<b class="nc"><i>38</i>&nbsp;    if (reference != null) {</b>
+<b class="nc"><i>39</i>&nbsp;      return uriBuilder.setParameter(&quot;reference&quot;, reference);</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;    if (refund) {</b>
+<b class="nc"><i>43</i>&nbsp;      return uriBuilder.setPath(String.format(&quot;%s/%s/refunds&quot;, uriBuilder.getPath(), tid));</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<b class="nc"><i>46</i>&nbsp;    return uriBuilder.setPath(String.format(&quot;%s/%s&quot;, uriBuilder.getPath(), tid));</b>
+<i>47</i>&nbsp;  }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;  @Override
+<i>50</i>&nbsp;  public TransactionResponse execute() {
+<i>51</i>&nbsp;    try {
+<b class="nc"><i>52</i>&nbsp;      HttpGet request = new HttpGet(getUri().build());</b>
+<i>53</i>&nbsp;
+<b class="nc"><i>54</i>&nbsp;      return sendRequest(request);</b>
+<b class="nc"><i>55</i>&nbsp;    } catch (URISyntaxException e) {</b>
+<b class="nc"><i>56</i>&nbsp;      e.printStackTrace();</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;    return null;</b>
+<i>60</i>&nbsp;  }
+<i>61</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-06-09 22:49</div>
+</div>
+</body>
+</html>
