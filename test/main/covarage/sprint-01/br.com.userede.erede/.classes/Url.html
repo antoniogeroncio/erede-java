@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Url</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">br.com.userede.erede</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Url (br.com.userede.erede)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Url</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package br.com.userede.erede;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.gson.annotations.SerializedName;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;public class Url {
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;  public static final String CALLBACK = &quot;callback&quot;;
+<i>8</i>&nbsp;  public static final String THREE_D_SECURE_FAILURE = &quot;threeDSecureFailure&quot;;
+<i>9</i>&nbsp;  public static final String THREE_D_SECURE_SUCCESS = &quot;threeDSecureSuccess&quot;;
+<i>10</i>&nbsp;
+<b class="nc"><i>11</i>&nbsp;  @SerializedName(&quot;type&quot;)</b>
+<i>12</i>&nbsp;  public String type = Url.CALLBACK;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;  @SerializedName(&quot;kind&quot;)
+<i>15</i>&nbsp;  public String kind;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;  @SerializedName(&quot;url&quot;)
+<i>18</i>&nbsp;  private String url;
+<i>19</i>&nbsp;
+<b class="nc"><i>20</i>&nbsp;  public Url() {</b>
+<i>21</i>&nbsp;  }
+<i>22</i>&nbsp;
+<b class="nc"><i>23</i>&nbsp;  public Url(String url) {</b>
+<b class="nc"><i>24</i>&nbsp;    this.url = url;</b>
+<b class="nc"><i>25</i>&nbsp;    this.type = Url.CALLBACK;</b>
+<i>26</i>&nbsp;  }
+<i>27</i>&nbsp;
+<b class="nc"><i>28</i>&nbsp;  public Url(String url, String kind) {</b>
+<b class="nc"><i>29</i>&nbsp;    this.url = url;</b>
+<b class="nc"><i>30</i>&nbsp;    this.kind = kind;</b>
+<i>31</i>&nbsp;  }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;  public String getType() {
+<b class="nc"><i>34</i>&nbsp;    return type;</b>
+<i>35</i>&nbsp;  }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;  public Url setType(String type) {
+<b class="nc"><i>38</i>&nbsp;    this.type = type;</b>
+<b class="nc"><i>39</i>&nbsp;    return this;</b>
+<i>40</i>&nbsp;  }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;  public String getKind() {
+<b class="nc"><i>43</i>&nbsp;    return kind;</b>
+<i>44</i>&nbsp;  }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;  public Url setKind(String kind) {
+<b class="nc"><i>47</i>&nbsp;    this.kind = kind;</b>
+<b class="nc"><i>48</i>&nbsp;    return this;</b>
+<i>49</i>&nbsp;  }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;  public String getUrl() {
+<b class="nc"><i>52</i>&nbsp;    return url;</b>
+<i>53</i>&nbsp;  }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;  public Url setUrl(String url) {
+<b class="nc"><i>56</i>&nbsp;    this.url = url;</b>
+<b class="nc"><i>57</i>&nbsp;    return this;</b>
+<i>58</i>&nbsp;  }
+<i>59</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-06-09 23:00</div>
+</div>
+</body>
+</html>

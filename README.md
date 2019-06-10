@@ -2,6 +2,15 @@
 
 SDK de integração eRede
 
+Cobertura Sprint 01
+
+![Alt text](test/main/covarage/sprint-01/coverage.png "Cobertura")
+
+Cobertura Sprint 02
+
+![Alt text](test/main/covarage/sprint-02/coverage.png "Cobertura")
+
+
 # Utilizando
 
 ## Autorizando uma transação
